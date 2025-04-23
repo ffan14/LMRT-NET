@@ -376,8 +376,13 @@ class LMRT(nn.Module):
         norm_layer = nn.BatchNorm2d
         padding_type = 'reflect'
         mult = 4
+        # MIF
         self.dsf1 = DSF.DSF(256) # channel
         self.dsf2 = DSF.DSF(256)
+        # self.efc1 = EFC(256, 256)
+        # self.efc2 = EFC(256, 256)
+        # self.eff1 = EFF(256, 256)
+        # self.eff2 = EFF(256, 256)
 
         ############################################################################################
         # Layer1-Encoder1
@@ -525,8 +530,12 @@ class LMRT(nn.Module):
         #decoder
         x = self.decoder_1(x_3_4)
         x = self.dsf1(x, x_3_4, x_2_4)
+        # x = self.efc1((x_2_4, x))
+        # x = self.eff1(x, x_2_4)
         x = self.decoder_2(x)
         x = self.dsf2(x, x_2_4, x_1)
+        # x = self.efc2((x_1,x))
+        # x = self.eff2(x, x_1)
         x = self.decoder_3(x)
         x = self.decoder_4(x)
         x = self.decoder_5(x)
